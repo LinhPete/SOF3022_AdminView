@@ -1,11 +1,14 @@
 <script setup>
+import { onMounted } from "vue";
+import { useLoginStore } from "@/stores/LoginStore";
 
+const loginStore = useLoginStore();
+
+onMounted(() => {
+  loginStore.checkLogin();
+});
 </script>
 
 <template>
-   <RouterView/>
+  <router-view />
 </template>
-
-<style>
-
-</style>
