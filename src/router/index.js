@@ -5,6 +5,7 @@ import AdminHome from "@/views/AdminHome.vue";
 const routes = [
   { path: "/login", component: AdminLogin },
   { path: "/admin", component: AdminHome },
+  {path: "/", component: AdminHome},
 ];
 
 const router = createRouter({

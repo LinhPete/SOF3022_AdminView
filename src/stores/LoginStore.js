@@ -14,12 +14,10 @@ export const useLoginStore = defineStore("login", {
             this.error = null;
             try {
                 const response = await axiosInstance.post("/store/auth/token", { email, password });
-
                 if (response.data.code === 0 && response.data.result.authenticated) {
                     this.token = response.data.result.token;
                     localStorage.setItem("token", this.token);
                     this.user = { email };
-
                     return true; // Đăng nhập thành công
                 } else {
                     this.error = "Sai email hoặc mật khẩu!";

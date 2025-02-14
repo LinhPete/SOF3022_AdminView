@@ -1,0 +1,90 @@
+import {defineStore} from "pinia";
+import axiosInstance from "@/axios/axios";
+
+export const useCategories = defineStore("categories", {
+    state: () => ({
+        categories: [],
+        loading: false,
+        error: null,
+    }),
+    actions: {
+        async retrieveCategories(page = 1) { // Đảm bảo page luôn bắt đầu từ 1
+            this.loading = true;
+            this.error = null;
+            try {
+                const response = await axiosInstance.get(`/store/categories/page?page=${page}`);
+                if (response.data.code === 0) {
+                    this.categories = response.data.result.content;
+                    this.totalPages = response.data.result.totalPages;
+                    return true;
+                } else {
+                    this.error = response.data.message;
+                    return false;
+                }
+            } catch (error) {
+                console.error("Lỗi API:", error);
+                this.error = "Lỗi kết nối đến máy chủ!";
+                return false;
+            } finally {
+                this.loading = false;
+            }
+        },
+        async createCategories(data) {
+            this.loading = true;
+            this.error = null;
+            try {
+                const response = await axiosInstance.post("/store/categories", data);
+                if (response.data.code === 0) {
+                    return {success: true, message: "Thêm danh mục thành công!"};
+                } else {
+                    return {success: false, message: response.data.message || "Lỗi không xác định!"};
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 500) {
+                    return {success: false, message: "Danh mục đã tồn tại!"};
+                }
+                return {success: false, message: "Lỗi kết nối đến máy chủ!"};
+            } finally {
+                this.loading = false;
+            }
+        },
+        async getCategoryById(categoryId) {
+            this.loading = true;
+            this.error = null;
+            try {
+                const response = await axiosInstance.get(`/store/categories/${categoryId}`);
+                if (response.data.code === 0) {
+                    return response.data.result; // Trả về category tìm được
+                } else {
+                    this.error = response.data.message;
+                    return null;
+                }
+            } catch (error) {
+                console.error("Lỗi API:", error);
+                this.error = "Lỗi kết nối đến máy chủ!";
+                return null;
+            } finally {
+                this.loading = false;
+            }
+        },
+        async updateCategory(categoryId, data) {
+            this.loading = true;
+            this.error = null;
+            try {
+                const response = await axiosInstance.put(`/store/categories/${categoryId}`, data);
+                if (response.data.code === 0) {
+                    return response.data.result;
+                } else {
+                    this.error = response.data.message;
+                    return null;
+                }
+            } catch (error) {
+                console.error("Lỗi API:", error);
+                this.error = "Lỗi kết nối đến máy chủ!";
+                return null;
+            } finally {
+                this.loading = false;
+            }
+        }
+    },
+});

@@ -13,7 +13,7 @@
           <a class="nav-link" data-bs-toggle="pill" href="#tab2"> Đơn hàng</a>
           <a class="nav-link" data-bs-toggle="pill" href="#tab3"> Users</a>
           <a class="nav-link" data-bs-toggle="pill" href="#tab4"> Tồn kho</a>
-          <a class="nav-link" data-bs-toggle="pill" href="#tab5"> Map</a>
+          <a class="nav-link" data-bs-toggle="pill" href="#tab5"> Danh Mục</a>
         </nav>
 
         <!-- 🛑 Nút Đăng xuất -->
@@ -32,13 +32,13 @@
             <Oder />
           </div>
           <div class="tab-pane fade" id="tab3">
-            <User />
+            <UserManagement />
           </div>
           <div class="tab-pane fade" id="tab4">
-            <Inventory />
+            <ProductManagement />
           </div>
           <div class="tab-pane fade" id="tab5">
-            <!-- <Map /> -->
+            <CategoryManagement/>
           </div>
         </div>
       </div>
@@ -51,10 +51,11 @@ import { useRouter } from "vue-router";
 import { useLoginStore } from "@/stores/LoginStore";
 import Dashoard from '@/components/Dashoard.vue';
 import Oder from '@/components/Oder.vue';
-import User from '@/components/User.vue';
-import Inventory from '@/components/Inventory.vue';
+import UserManagement from '@/components/UserManagement.vue';
+import ProductManagement from '@/components/ProductManagement.vue';
 import {onMounted} from "vue";
 // import Map from '@/components/Map.vue';
+import CategoryManagement from "@/components/CategoryManagement.vue";
 
 const router = useRouter();
 const loginStore = useLoginStore();
