@@ -12,7 +12,7 @@ export const useCategories = defineStore("categories", {
             this.loading = true;
             this.error = null;
             try {
-                const response = await axiosInstance.get(`/store/categories/page?page=${page}`);
+                const response = await axiosInstance.get(`/store/categories/pages?page=${page}`);
                 if (response.data.code === 0) {
                     this.categories = response.data.result.content;
                     this.totalPages = response.data.result.totalPages;
