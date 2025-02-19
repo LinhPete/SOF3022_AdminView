@@ -26,10 +26,10 @@
       <div class="col-md-10 p-4 bg-dark bg-opacity-10">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="tab1">
-            <Dashoard />
+            <Dashboard />
           </div>
           <div class="tab-pane fade" id="tab2">
-            <Oder />
+            <Order />
           </div>
           <div class="tab-pane fade" id="tab3">
             <UserManagement />
@@ -49,9 +49,9 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useLoginStore } from "@/stores/LoginStore";
-import Dashoard from '@/components/Dashoard.vue';
-import Oder from '@/components/Oder.vue';
-import UserManagement from '@/components/UserManagement.vue';
+import Dashboard from '@/components/Dashboard.vue';
+import Order from '@/components/Order.vue';
+import UserManagement from '@/views/UserManagement.vue';
 import ProductManagement from '@/components/ProductManagement.vue';
 import {onMounted} from "vue";
 // import Map from '@/components/Map.vue';
