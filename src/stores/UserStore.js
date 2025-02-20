@@ -26,7 +26,6 @@ export const useUsers = defineStore("users", {
 
                 if (response.data.content) {
                     this.users = response.data.content;
-                    console.log(response.data.totalPages)
                     this.totalPages = response.data.totalPages;
                     return true;
                 } else {
@@ -44,16 +43,20 @@ export const useUsers = defineStore("users", {
         async createUsers(data) {
             this.loading = true;
             this.error = null;
-            console.log("Dữ liệu gửi lên server:", data);
+            console.log("Dữ liệu gửi lên server:", data); // ✅ Kiểm tra dữ liệu gửi đi
+
             try {
-                const response = await axiosInstance.post("/store/users", data);
+                const response = await axiosInstance.post(`/store/users`, data);
+                console.log("Phản hồi từ server:", response.data); // ✅ Kiểm tra phản hồi từ server
+
                 if (response.data.code === 0) {
-                    return { success: true, message: "Thêm danh mục thành công!" };
+                    return { success: true, message: "Thêm người dùng thành công!" };
                 } else {
                     return { success: false, message: response.data.message || "Lỗi không xác định!" };
                 }
             } catch (error) {
                 this.handleApiError(error);
+                console.error("Lỗi API:", error);
                 return { success: false, message: "Lỗi kết nối đến máy chủ!" };
             } finally {
                 this.loading = false;
