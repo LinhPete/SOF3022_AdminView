@@ -1,40 +1,29 @@
 <template>
   <h3 class="text-center mb-4">Quản Lý Đăng Ký Người Dùng</h3>
-
+  
   <!-- Component Form nhập thông tin người dùng -->
-  <UserForm 
-    :user="nguoiDungMoi" 
-    @update="capNhatNguoiDung"
-    @submit="themNguoiDung"
-    @reset="datLaiForm"
-  />
-
+  <UserForm :user="nguoiDungMoi" @update="capNhatNguoiDung" @submit="themNguoiDung" @reset="datLaiForm"
+    @uploadAvatar="handleUploadAvatar" />
+  
   <!-- Tìm kiếm Người Dùng -->
   <div class="mb-3">
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Tìm kiếm người dùng theo tên hoặc số điện thoại..."
-      v-model="tuKhoaTimKiem"
-    />
+    <input type="text" class="form-control" placeholder="Tìm kiếm người dùng theo tên hoặc số điện thoại..."
+      v-model="tuKhoaTimKiem" />
   </div>
-
+  
   <!-- Component Bảng danh sách người dùng -->
-  <UserList 
-    :danhSachNguoiDung="danhSachNguoiDungLoc" 
-    @editUser="chinhSuaNguoiDung"
-    @deleteUser="xoaNguoiDung"
-  />
-
+  <UserList :danhSachNguoiDung="danhSachNguoiDungLoc" @editUser="chinhSuaNguoiDung" @deleteUser="xoaNguoiDung" />
+  
   <div class="d-flex justify-content-center mt-3">
-      <button class="btn btn-outline-primary mx-1" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">
-        Trước
-      </button>
-      <span class="mx-2">Trang {{ currentPage }} / {{ totalPages }}</span>
-      <button class="btn btn-outline-primary mx-1" @click="changePage(currentPage + 1)" :disabled="currentPage >= totalPages">
-        Sau
-      </button>
-    </div>
+    <button class="btn btn-outline-primary mx-1" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">
+      Trước
+    </button>
+    <span class="mx-2">Trang {{ currentPage }} / {{ totalPages }}</span>
+    <button class="btn btn-outline-primary mx-1" @click="changePage(currentPage + 1)"
+      :disabled="currentPage >= totalPages">
+      Sau
+    </button>
+  </div>
 </template>
 
 <script setup>
@@ -43,7 +32,7 @@ import { useUsers } from "@/stores/UserStore";
 import UserForm from "@/components/user/UserForm.vue";
 import UserList from "@/components/user/UserList.vue";
 
-const userStore = useUsers(); 
+const userStore = useUsers();
 
 const nguoiDungMoi = ref({
   email: "",
@@ -58,7 +47,7 @@ const totalPages = ref(1);
 // Lọc danh sách người dùng theo từ khóa tìm kiếm
 const danhSachNguoiDungLoc = computed(() => {
   if (!tuKhoaTimKiem.value) {
-    return userStore.users; 
+    return userStore.users;
   }
   return userStore.users.filter((nguoiDung) =>
     nguoiDung.email.toLowerCase().includes(tuKhoaTimKiem.value.toLowerCase())
@@ -77,12 +66,9 @@ const themNguoiDung = async (nguoiDung) => {
 };
 
 // Cập nhật thông tin người dùng trong store
-const capNhatNguoiDung = (nguoiDung) => {
-
-  const index = userStore.users.findIndex(u => u.id === nguoiDung.id);
-  if (index !== -1) {
-    userStore.users[index] = { ...nguoiDung };
-  }
+const capNhatNguoiDung = async (nguoiDung) => {
+  await userStore.updateUser(nguoiDung.id, nguoiDung);
+  await loadUser();
 };
 
 // Chỉnh sửa người dùng
@@ -93,7 +79,24 @@ const chinhSuaNguoiDung = (nguoiDung) => {
 // Xóa người dùng (cần thêm action `deleteUser` vào store)
 const xoaNguoiDung = async (nguoiDung) => {
   await userStore.deleteUser(nguoiDung.id);
-  await userStore.getUsers();
+  await loadUser();
+};
+
+const handleUploadAvatar = async (id, file) => {
+
+  if (!id || !file) {
+    console.warn("Thiếu ID hoặc file khi upload avatar.");
+    return;
+  }
+  try {
+    console.log("Bắt đầu upload avatar:", { userId: id, file });
+    await userStore.updateAvatar(id, file);
+    console.log("Upload avatar thành công!");
+  } catch (error) {
+    console.error("Lỗi khi upload avatar:", error);
+  }
+  await loadUser();
+  datLaiForm();
 };
 
 // Đặt lại form

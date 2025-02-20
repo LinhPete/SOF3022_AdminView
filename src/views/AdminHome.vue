@@ -11,8 +11,8 @@
         <nav class="nav flex-column nav-pills">
           <a class="nav-link active" data-bs-toggle="pill" href="#tab1"> Dashboard</a>
           <a class="nav-link" data-bs-toggle="pill" href="#tab2"> Đơn hàng</a>
-          <a class="nav-link" data-bs-toggle="pill" href="#tab3"> Users</a>
-          <a class="nav-link" data-bs-toggle="pill" href="#tab4"> Tồn kho</a>
+          <a class="nav-link" data-bs-toggle="pill" href="#tab3"> Thành viên</a>
+          <a class="nav-link" data-bs-toggle="pill" href="#tab4"> Hàng hoá</a>
           <a class="nav-link" data-bs-toggle="pill" href="#tab5"> Danh Mục</a>
         </nav>
 
@@ -52,10 +52,10 @@ import { useLoginStore } from "@/stores/LoginStore";
 import Dashboard from '@/components/Dashboard.vue';
 import Order from '@/components/Order.vue';
 import UserManagement from '@/views/UserManagement.vue';
-import ProductManagement from '@/components/ProductManagement.vue';
+import ProductManagement from '@/views/ProductManagement.vue';
 import {onMounted} from "vue";
 // import Map from '@/components/Map.vue';
-import CategoryManagement from "@/components/CategoryManagement.vue";
+import CategoryManagement from "@/views/CategoryManagement.vue";
 
 const router = useRouter();
 const loginStore = useLoginStore();
