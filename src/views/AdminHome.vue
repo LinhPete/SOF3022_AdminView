@@ -29,7 +29,7 @@
             <Dashboard />
           </div>
           <div class="tab-pane fade" id="tab2">
-            <Order />
+            <Order/>
           </div>
           <div class="tab-pane fade" id="tab3">
             <UserManagement />

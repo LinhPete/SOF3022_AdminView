@@ -9,17 +9,18 @@ export const useOrders = defineStore("orders", {
     totalPages: 1,
   }),
   actions: {
-    async fetchOrders(page = 0) {
+    async fetchOrders(page = 1) {
       this.loading = true;
       this.error = null;
       try {
-        const response = await axiosInstance.get(`/store/orders`, {
-          params: { page },
+        const response = await axiosInstance.get(`/store/orders?page=${page}`, {
+          params: { page: page },
         });
 
         if (response.data) {
-          this.orders = response.data.content || [];
-          this.totalPages = response.data.totalPages || 1;
+          this.orders = response.data.content;
+          this.totalPages = response.data.totalPages;
+          console.log(this.orders);
           return { success: true };
         }
         return { success: false, message: "Không có dữ liệu đơn hàng!" };
