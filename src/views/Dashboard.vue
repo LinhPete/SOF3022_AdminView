@@ -11,7 +11,7 @@
       </div>
     </div>
     <div>
-      <Chart :label="label" :data="data"></Chart>
+      <Chart :label="label" :data="data" :revenueByCategory="revenueByCategory" :topVipCustomers="topVipCustomers"></Chart>
     </div>
   </div>
 </template>
@@ -26,11 +26,22 @@ const dashboardData = ref();
 const router = useRouter();
 const label = ref([]);
 const data = ref([]);
+const revenueByCategory = ref([]);
+const topVipCustomers = ref([]);
 
 const fetchDashboardData = async () => {
   try {
     const response = await axios.get("/store/admin");
     dashboardData.value = response.data;
+
+    // Gọi API thống kê doanh thu theo loại hàng
+    const revenueResponse = await axios.get("/store/admin/revenue-by-category");
+    revenueByCategory.value = revenueResponse.data;
+
+    // Gọi API danh sách 10 khách hàng VIP
+    const vipResponse = await axios.get("/store/admin/top-vip-customers");
+    topVipCustomers.value = vipResponse.data;
+
     label.value = response.data;
     data.value = response.data;
     console.log(label.value)

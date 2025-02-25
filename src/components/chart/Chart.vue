@@ -3,6 +3,15 @@
     <ChartControl @updateChart="updateChart" />
     <component :is="chartComponent" :chartData="dataChange" />
   </div>
+
+  <div>
+  <h4>Thống kê doanh thu theo loại hàng</h4>
+  <BarChart :chartData="revenueChartData" />
+
+  <h4>Top 10 khách hàng VIP</h4>
+  <PieChart :chartData="vipChartData" />
+</div>
+
 </template>
 
 <script setup>
@@ -23,6 +32,8 @@ Chart.register(...registerables);
 const props = defineProps({
   label: Array,
   data: Array,
+  revenueByCategory: Array,
+  topVipCustomers: Array,
 });
 
 // Loại biểu đồ hiện tại
@@ -63,23 +74,72 @@ const chartData = ref({
   ],
 });
 
+// Dữ liệu mặc định cho biểu đồ chính
 const dataChange = computed(() => {
   if (!props.label || !props.data || props.data.length === 0) {
-    return chartData.value;
+    return {
+      labels: ["1", "2", "3", "4"],
+      datasets: [
+        {
+          label: "Dữ liệu mẫu",
+          data: [10, 12, 22, 40],
+          borderColor: "black",
+          backgroundColor: ["red", "blue", "gray", "yellow"],
+          tension: 0.1,
+        },
+      ],
+    };
   }
   return {
-    labels: props.label.map(i => i.title),  // Không cần map nếu đã là array thuần
+    labels: props.label.map(i => i.title),
     datasets: [
       {
-        label: props.label[0].title,
+        label: props.label[0]?.title || "Dữ liệu",
         data: props.data.map(i => i.value),
         borderColor: "black",
         backgroundColor: ["red", "blue", "gray", "yellow"],
         tension: 0.1,
-      }
-    ]
+      },
+    ],
   };
 });
+
+// Dữ liệu doanh thu theo loại hàng
+const revenueChartData = computed(() => {
+  if (!props.revenueByCategory || props.revenueByCategory.length === 0) {
+    return { labels: [], datasets: [] };
+  }
+
+  return {
+    labels: props.revenueByCategory.map(i => i.category),
+    datasets: [
+      {
+        label: "Doanh thu theo loại hàng",
+        data: props.revenueByCategory.map(i => i.revenue),
+        backgroundColor: ["red", "blue", "green", "yellow", "purple", "orange", "cyan", "pink"],
+      },
+    ],
+  };
+});
+
+// Dữ liệu khách hàng VIP
+const vipChartData = computed(() => {
+  if (!props.topVipCustomers || props.topVipCustomers.length === 0) {
+    return { labels: [], datasets: [] };
+  }
+
+  return {
+    labels: props.topVipCustomers.map(i => i.name),
+    datasets: [
+      {
+        label: "Khách hàng VIP",
+        data: props.topVipCustomers.map(i => i.total_spent),
+        backgroundColor: ["orange", "cyan", "pink", "purple", "lime", "red", "blue", "green"],
+      },
+    ],
+  };
+});
+
 
 // Chọn component biểu đồ tương ứng
 const chartComponent = computed(() => {
