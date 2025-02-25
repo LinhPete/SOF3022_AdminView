@@ -26,7 +26,6 @@ export const useUsers = defineStore("users", {
 
         if (response.data.content) {
           this.users = response.data.content;
-          console.log(response.data.totalPages);
           this.totalPages = response.data.totalPages;
           return true;
         } else {

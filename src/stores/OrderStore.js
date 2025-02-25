@@ -20,7 +20,6 @@ export const useOrders = defineStore("orders", {
         if (response.data) {
           this.orders = response.data.content;
           this.totalPages = response.data.totalPages;
-          console.log(this.orders);
           return { success: true };
         }
         return { success: false, message: "Không có dữ liệu đơn hàng!" };
