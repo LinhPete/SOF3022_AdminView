@@ -4,7 +4,7 @@
     {{ message }}
   </div>
   <ProductForm :product="prodcutSelected" :categories="categories" @add="handleAdd" @update="handleUpdate"
-    @delete="handleDelete" @uploadImage="handleUploadImage" @reset="handleReset"></ProductForm>>
+    @delete="handleDelete" @uploadImage="handleUploadImage" @reset="handleReset"></ProductForm>
   <!-- Tìm kiếm danh mục theo ID -->
   <div class="mb-3 d-flex gap-2">
     <input v-model="searchQuery" type="text" class="form-control" placeholder="Nhập ID danh mục..." />
@@ -100,6 +100,7 @@ const loadCategories = async () => {
     categories.value = response;
   }
 };
+
 const changePage = async (newPage) => {
   if (newPage >= 1 && newPage <= totalPages.value) {
     currentPage.value = newPage;
