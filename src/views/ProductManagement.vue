@@ -104,7 +104,7 @@ const loadCategories = async () => {
 const changePage = async (newPage) => {
   if (newPage >= 1 && newPage <= totalPages.value) {
     currentPage.value = newPage;
-    await loadCategories();
+    await loadProducts();
   }
 };
 const handleUploadImage = async (productId, file) => {
@@ -117,8 +117,8 @@ const handleUploadImage = async (productId, file) => {
 }
 
 const productListFillter = computed(() => {
-  if (!searchQuery.value) return productStore.products;
-  return productStore.products.filter(product => product.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+  return productStore.products;
+  // return productStore.products.filter(product => product.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
 })
 
 onMounted(async () => {

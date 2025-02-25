@@ -49,8 +49,8 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useLoginStore } from "@/stores/LoginStore";
-import Dashboard from '@/components/Dashboard.vue';
-import Order from '@/components/Order.vue';
+import Dashboard from '@/views/Dashboard.vue';
+import Order from '@/views/Order.vue';
 import UserManagement from '@/views/UserManagement.vue';
 import ProductManagement from '@/views/ProductManagement.vue';
 import {onMounted} from "vue";

@@ -14,17 +14,13 @@ export const useProducts = defineStore("products", {
       this.error = null;
       try {
         const response = await axiosInstance.get(
-          `/store/products?page=${page}`,
-          {
-            params: {
-              page: page,
-            },
-          }
+          `/store/products?page=${page}`
         );
         if (response) {
           this.products = response.data.content;
           this.totalPage = response.data.totalPages;
           return true;
+          
         }
         return false;
       } catch (error) {

@@ -10,21 +10,31 @@
         </div>
       </div>
     </div>
+    <div>
+      <Chart :label="label" :data="data"></Chart>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import Chart from "../components/chart/Chart.vue";
 import axios from "../axios/axios"; // Import axios instance
 
 const dashboardData = ref();
 const router = useRouter();
+const label = ref([]);
+const data = ref([]);
 
 const fetchDashboardData = async () => {
   try {
     const response = await axios.get("/store/admin");
     dashboardData.value = response.data;
+    label.value = response.data;
+    data.value = response.data;
+    console.log(label.value)
+    console.log(data.value)
   } catch (error) {
     console.error("Lỗi khi lấy dữ liệu dashboard:", error);
     if (error.response?.status === 401) {
