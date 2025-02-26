@@ -111,5 +111,23 @@ export const useOrders = defineStore("orders", {
         this.loading = false;
       }
     },
+    async fetchAllOrdersByUserId(userId) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await axiosInstance.get(`/store/orders/all/${userId}`);
+
+        if (response.data) {
+          this.orders = response.data || [];
+          return response.data;
+        }
+        return { success: false, message: "Không có dữ liệu đơn hàng!" };
+      } catch (error) {
+        this.error = error.response?.data || "Lỗi lấy danh sách đơn hàng!";
+        return { success: false, message: this.error };
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 });

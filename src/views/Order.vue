@@ -53,6 +53,7 @@ const loadOrders = async () => {
   const response = await ordersStore.fetchOrders(currentPage.value);
   if (response) {
     orders.value = ordersStore.orders;
+    console.log(orders.value)
     totalPages.value = ordersStore.totalPages;
   }
 };

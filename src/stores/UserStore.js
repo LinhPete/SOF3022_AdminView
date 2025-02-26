@@ -18,11 +18,7 @@ export const useUsers = defineStore("users", {
       this.loading = true;
       this.error = null;
       try {
-        const response = await axiosInstance.get(`/store/users?page=${page}`, {
-          params: {
-            page: page,
-          },
-        });
+        const response = await axiosInstance.get(`/store/users?page=${page}`);
 
         if (response.data.content) {
           this.users = response.data.content;
@@ -132,6 +128,9 @@ export const useUsers = defineStore("users", {
       } finally {
         this.loading = false;
       }
+    },
+    setUsers(users) {
+      this.users = users;
     },
   },
 });
